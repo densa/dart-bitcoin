@@ -16,5 +16,5 @@ dependencies:
   cryptoutils: ">=0.1.8"
   pointycastle: any
 dev_dependencies:
-  environment:
-    sdk: '>=1.0.0 <3.0.0'
+environment:
+  sdk: '>=1.0.0 <3.0.0'

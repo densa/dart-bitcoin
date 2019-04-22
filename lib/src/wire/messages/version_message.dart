@@ -31,7 +31,7 @@ class VersionMessage extends Message {
   VersionMessage(
       {int this.lastHeight: 0,
       bool this.relayBeforeFilter: false,
-      int this.clientVersion: NetworkParameters.PROTOCOL_VERSION,
+      int this.clientVersion: 1,
       BigInteger this.services,
       int this.time: 0,
       PeerAddress this.myAddress,
@@ -89,15 +89,13 @@ class VersionMessage extends Message {
   /**
    * Returns true if the clientVersion field is >= Pong.MIN_PROTOCOL_VERSION. If it is then ping() is usable.
    */
-  bool get isPingPongSupported =>
-      clientVersion >= PongMessage.MIN_PROTOCOL_VERSION;
+  bool get isPingPongSupported => false;
 
   /**
    * Returns true if the clientVersion field is >= FilteredBlock.MIN_PROTOCOL_VERSION. If it is then Bloom filtering
    * is available and the memory pool of the remote peer will be queried when the downloadData property is true.
    */
-  bool get isBloomFilteringSupported =>
-      clientVersion >= FilteredBlock.MIN_PROTOCOL_VERSION;
+  bool get isBloomFilteringSupported => false;
 
   /**
    * Returns true if the version message indicates the sender has a full copy of the block chain,

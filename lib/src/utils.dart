@@ -12,6 +12,8 @@ import "package:bitcoin/src/wire/serialization.dart";
 
 export "package:base58check/base58check.dart" show Base58CheckPayload;
 
+import 'dart:convert';
+
 /**
  * Currently unused, but can be used to replace all occurences of
  * - Uint8List.sublist()
@@ -39,11 +41,11 @@ Uint8List toBytes(List<int> bytes, [int start = 0, int end = -1]) {
 
 
 Uint8List utf8Encode(String string) {
-  List<int> encoded = UTF8.encode(string);
+  List<int> encoded = Utf8Encoder().convert(string);
   return encoded is Uint8List ? encoded : new Uint8List.fromList(encoded);
 }
 
-String utf8Decode(Uint8List bytes) => UTF8.decode(bytes);
+String utf8Decode(Uint8List bytes) => Utf8Decoder().convert(bytes);
 
 
 const String _BYTE_ALPHABET = "0123456789ABCDEF";

@@ -75,7 +75,7 @@ Uint8List readByteArray(bytes.Reader reader) {
 }
 
 String readVarStr(bytes.Reader reader) {
-  return UTF8.decode(readByteArray(reader));
+  return Utf8Decoder().convert(readByteArray(reader));
 }
 
 BitcoinSerializable readObject(
@@ -122,7 +122,7 @@ void writeByteArray(bytes.Buffer buffer, Uint8List bytes) {
 }
 
 void writeVarStr(bytes.Buffer buffer, String string) {
-  writeByteArray(buffer, UTF8.encode(string));
+  writeByteArray(buffer, Utf8Encoder().convert(string));
 }
 
 void writeObject(bytes.Buffer buffer, BitcoinSerializable obj, int pver) {

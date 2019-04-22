@@ -4,45 +4,13 @@ typedef Message _MessageGenerator();
 
 abstract class Message extends BitcoinSerializable {
   static const String CMD_ADDR = "addr";
-  static const String CMD_ALERT = "alert";
-  static const String CMD_BLOCK = "block";
-  static const String CMD_FILTERADD = "filteradd";
-  static const String CMD_FILTERCLEAR = "filterclear";
-  static const String CMD_FILTERLOAD = "filterload";
   static const String CMD_GETADDR = "getaddr";
-  static const String CMD_GETBLOCKS = "getblocks";
-  static const String CMD_GETDATA = "getdata";
-  static const String CMD_GETHEADERS = "getheaders";
-  static const String CMD_HEADERS = "headers";
-  static const String CMD_INV = "inv";
-  static const String CMD_MEMPOOL = "mempool";
-  static const String CMD_MERKLEBLOCK = "merkleblock";
-  static const String CMD_NOTFOUND = "notfound";
-  static const String CMD_PING = "ping";
-  static const String CMD_PONG = "pong";
-  static const String CMD_TX = "tx";
   static const String CMD_VERACK = "verack";
   static const String CMD_VERSION = "version";
 
   static final Map<String, _MessageGenerator> _MESSAGE_GENERATORS = {
     CMD_ADDR: () => new AddressMessage.empty(),
-    CMD_ALERT: () => new AlertMessage.empty(),
-    CMD_BLOCK: () => new BlockMessage.empty(),
-    CMD_FILTERADD: () => new FilterAddMessage.empty(),
-    CMD_FILTERCLEAR: () => new FilterClearMessage.empty(),
-    CMD_FILTERLOAD: () => new FilterLoadMessage.empty(),
     CMD_GETADDR: () => new GetAddressMessage.empty(),
-    CMD_GETBLOCKS: () => new GetBlocksMessage.empty(),
-    CMD_GETDATA: () => new GetDataMessage.empty(),
-    CMD_GETHEADERS: () => new GetHeadersMessage.empty(),
-    CMD_HEADERS: () => new HeadersMessage.empty(),
-    CMD_INV: () => new InventoryMessage.empty(),
-    CMD_MEMPOOL: () => new MemPoolMessage.empty(),
-    CMD_MERKLEBLOCK: () => new MerkleBlockMessage.empty(),
-    CMD_NOTFOUND: () => new NotFoundMessage.empty(),
-    CMD_PING: () => new PingMessage.empty(),
-    CMD_PONG: () => new PongMessage.empty(),
-    CMD_TX: () => new TransactionMessage.empty(),
     CMD_VERACK: () => new VerackMessage.empty(),
     CMD_VERSION: () => new VersionMessage.empty(),
   };
@@ -134,11 +102,11 @@ abstract class Message extends BitcoinSerializable {
   static String _readCommand(Uint8List bytes) {
     int word = COMMAND_LENGTH;
     while (bytes[word - 1] == 0) word--;
-    return ASCII.decode(bytes.sublist(0, word));
+    return ascii.decode(bytes.sublist(0, word));
   }
 
   static List<int> _encodeCommand(String command) {
-    List<int> commandBytes = new List.from(ASCII.encode(command));
+    List<int> commandBytes = new List.from(ascii.encode(command));
     while (commandBytes.length < COMMAND_LENGTH) commandBytes.add(0);
     return commandBytes;
   }

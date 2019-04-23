@@ -15,11 +15,13 @@ class VersionMessage extends Message {
   String subVer;
   int lastHeight;
   bool relayBeforeFilter;
+  String coinName;
 
   /** The version of this library release, as a string. */
-  static final String BITCOINJ_VERSION = ".1-Crawler";
+  static final String DARTCOIN_VERSION = "0.0.0-alpha";
+
   /** The value that is prepended to the subVer field of this application. */
-  static final String LIBRARY_SUBVER = "/"+ "DigiByte"+":" + BITCOINJ_VERSION + "/";
+  static String LIBRARY_SUBVER;
 
   /**
    * Create a new VersionMessage.
@@ -36,7 +38,8 @@ class VersionMessage extends Message {
       PeerAddress this.myAddress,
       PeerAddress this.theirAddress,
       int this.nonce,
-      String this.subVer}) {
+      String this.subVer,
+      String this.coinName}) {
     services = services ?? BigInteger.ZERO;
     nonce = nonce ?? new Random().nextInt(0xffffffff);
     subVer = subVer ?? LIBRARY_SUBVER;
@@ -44,6 +47,7 @@ class VersionMessage extends Message {
     myAddress = myAddress ?? new PeerAddress.localhost(services: services);
     theirAddress =
         theirAddress ?? new PeerAddress.localhost(services: services);
+    LIBRARY_SUBVER = "/${coinName}:" + DARTCOIN_VERSION + "/";
   }
 
   /// Create an empty instance.

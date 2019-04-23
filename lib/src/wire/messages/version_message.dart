@@ -163,8 +163,7 @@ class VersionMessage extends Message {
     // we are version >= 106
     writeObject(buffer, theirAddress, 0);
     writeUintLE(buffer, nonce, 8);
-    writeUintLE(buffer, subVer.length);
-    writeVarStr(buffer, subVer);
+    writeUintLE(buffer, 0x00);
     writeUintLE(buffer, lastHeight);
     writeBytes(buffer, [relayBeforeFilter ? 1 : 0]);
   }

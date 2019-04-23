@@ -20,6 +20,10 @@ abstract class Message extends BitcoinSerializable {
 
   String get command;
 
+  int _byteSize = 0;
+
+  int get byteSize => _byteSize;
+
   Message();
 
   factory Message.forCommand(String command) {
@@ -73,6 +77,8 @@ abstract class Message extends BitcoinSerializable {
           "(actual: ${CryptoUtils.bytesToHex(actualChecksum)}, "
           "expected: ${CryptoUtils.bytesToHex(checksum)})");
     }
+
+    msg._byteSize = HEADER_LENGTH + payloadLength;
 
     return msg;
   }

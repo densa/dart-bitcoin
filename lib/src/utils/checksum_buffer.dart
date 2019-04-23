@@ -20,7 +20,7 @@ class ChecksumBuffer extends BufferImpl {
   @override
   void add(List<int> bytes) {
     super.add(bytes);
-    digest.update(bytes, 0, bytes.length);
+    digest.update(Uint8List.fromList(bytes), 0, bytes.length);
   }
 
   @override

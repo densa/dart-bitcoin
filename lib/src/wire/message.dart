@@ -88,7 +88,7 @@ abstract class Message extends BitcoinSerializable {
     var buffer = new bytes.Buffer();
 
     // write magic value and command
-    writeUintLE(buffer, magicValue);
+    buffer.addByte(magicValue);
     buffer.add(_encodeCommand(msg.command));
 
     // serialize the payload

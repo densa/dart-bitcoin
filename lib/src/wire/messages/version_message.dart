@@ -42,12 +42,12 @@ class VersionMessage extends Message {
       String this.coinName}) {
     services = services ?? BigInteger.ZERO;
     nonce = nonce ?? new Random().nextInt(0xffffffff);
+    LIBRARY_SUBVER = "/${coinName}:" + DARTCOIN_VERSION + "/";
     subVer = subVer ?? LIBRARY_SUBVER;
     // make sure a PeerAddress instance with protocolVersion = 0 is used
     myAddress = myAddress ?? new PeerAddress.localhost(services: services);
     theirAddress =
         theirAddress ?? new PeerAddress.localhost(services: services);
-    LIBRARY_SUBVER = "/${coinName}:" + DARTCOIN_VERSION + "/";
   }
 
   /// Create an empty instance.

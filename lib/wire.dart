@@ -1,9 +1,9 @@
 library bitcoin.wire;
 
-import "dart:collection";
 import "dart:convert";
 import "dart:math";
 import "dart:typed_data";
+import "package:hex/hex.dart";
 
 import "package:bignum/bignum.dart";
 import "package:bytes/bytes.dart" as bytes;

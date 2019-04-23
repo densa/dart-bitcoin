@@ -6,6 +6,7 @@ homepage: http://www.dartcoin.org/
 dependencies:
   asn1lib: ">=0.3.1"
   base58check: ^1.0.0
+  hex: ^0.1.2
   bignum:
     git:
       url: https://github.com/nseidm1/dart-bignum.git

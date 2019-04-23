@@ -84,11 +84,11 @@ abstract class Message extends BitcoinSerializable {
   }
 
   /// Encode a message to serialized format.
-  static Uint8List encode(Message msg, int magicValue, int pver) {
+  static Uint8List encode(Message msg, String magicValue, int pver) {
     var buffer = new bytes.Buffer();
 
     // write magic value and command
-    buffer.addByte(magicValue);
+    buffer.add(HEX.decode(magicValue));
     buffer.add(_encodeCommand(msg.command));
 
     // serialize the payload

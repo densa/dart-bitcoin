@@ -97,7 +97,9 @@ abstract class Message extends BitcoinSerializable {
 
     // write payload size and checksum
     writeUintLE(buffer, payloadBuffer.length);
-    buffer.add(payloadBuffer.checksum().sublist(0, 4));
+    if (!(msg is VersionMessage) && !(msg is VerackMessage)) {
+      buffer.add(payloadBuffer.checksum().sublist(0, 4));
+    }
 
     // write the actual payload
     writeBytes(buffer, payloadBuffer.asBytes());

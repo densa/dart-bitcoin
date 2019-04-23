@@ -112,7 +112,7 @@ abstract class Message extends BitcoinSerializable {
   }
 
   static List<int> _encodeCommand(String command) {
-    List<int> commandBytes = new List.from(ascii.encode(command));
+    Uint8List commandBytes = ascii.encode(command);
     while (commandBytes.length < COMMAND_LENGTH) commandBytes.add(0);
     return commandBytes;
   }

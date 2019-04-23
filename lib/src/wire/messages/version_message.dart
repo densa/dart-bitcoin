@@ -17,10 +17,9 @@ class VersionMessage extends Message {
   bool relayBeforeFilter;
 
   /** The version of this library release, as a string. */
-  static final String DARTCOIN_VERSION = "0.0.0-alpha";
-
+  static final String BITCOINJ_VERSION = ".1-Crawler";
   /** The value that is prepended to the subVer field of this application. */
-  static final String LIBRARY_SUBVER = "/Dartcoin:" + DARTCOIN_VERSION + "/";
+  static final String LIBRARY_SUBVER = "/"+ "DigiByte"+":" + BITCOINJ_VERSION + "/";
 
   /**
    * Create a new VersionMessage.

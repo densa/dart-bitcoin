@@ -7,12 +7,16 @@ abstract class Message extends BitcoinSerializable {
   static const String CMD_GETADDR = "getaddr";
   static const String CMD_VERACK = "verack";
   static const String CMD_VERSION = "version";
+  static const String CMD_PING = "ping";
+  static const String CMD_PONG = "pong";
 
   static final Map<String, _MessageGenerator> _MESSAGE_GENERATORS = {
     CMD_ADDR: () => new AddressMessage.empty(),
     CMD_GETADDR: () => new GetAddressMessage.empty(),
     CMD_VERACK: () => new VerackMessage.empty(),
     CMD_VERSION: () => new VersionMessage.empty(),
+    CMD_PING: () => PingMessage.empty(),
+    CMD_PONG: () => PongMessage.empty(),
   };
 
   static const int HEADER_LENGTH = 24; // = 4 + COMMAND_LENGTH + 4 + 4;

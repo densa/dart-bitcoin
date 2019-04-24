@@ -5,9 +5,6 @@ import "dart:math";
 
 import "package:pointycastle/api.dart";
 
-// tmp
-import "package:asn1lib/asn1lib.dart";
-
 import "package:bitcoin/src/utils.dart" as utils;
 
 // utils

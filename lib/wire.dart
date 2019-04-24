@@ -9,7 +9,6 @@ import "package:bignum/bignum.dart";
 import "package:bytes/bytes.dart" as bytes;
 import "package:cryptoutils/cryptoutils.dart";
 
-import "core.dart";
 import "src/utils/checksum_buffer.dart";
 import "src/utils/checksum_reader.dart";
 import "src/wire/serialization.dart";
@@ -24,5 +23,7 @@ part "src/wire/peer_address.dart";
 // messages
 part "src/wire/messages/version_message.dart";
 part "src/wire/messages/verack_message.dart";
+part "src/wire/messages/ping_message.dart";
+part "src/wire/messages/pong_message.dart";
 part "src/wire/messages/address_message.dart";
 part "src/wire/messages/getaddress_message.dart";

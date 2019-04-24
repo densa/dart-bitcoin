@@ -37,19 +37,13 @@ abstract class Message extends BitcoinSerializable {
   void bitcoinSerialize(bytes.Buffer buffer, int pver);
 
   /// Decode a serialized message.
-  static Message decode(Uint8List msgBytes, int magicValue, int pver) {
+  static Message decode(Uint8List msgBytes, int pver) {
     if (msgBytes.length < HEADER_LENGTH)
       throw new SerializationException("Too few bytes to be a Message");
 
     // create a Reader for deserializing
     var reader = new bytes.Reader(msgBytes);
-
-    // verify the magic value
-    int magic = readUintLE(reader);
-    if (magic != magicValue) {
-      throw new SerializationException("Invalid magic value: $magic. Expected $magicValue.");
-    }
-
+    
     // read the command, length and checksum
     String cmd = _readCommand(readBytes(reader, COMMAND_LENGTH));
     int payloadLength = readUintLE(reader);

@@ -44,6 +44,9 @@ abstract class Message extends BitcoinSerializable {
     // create a Reader for deserializing
     var reader = new bytes.Reader(msgBytes);
 
+    // verify the magic value
+    reader.readBytes(4);
+
     // read the command, length and checksum
     String cmd = _readCommand(readBytes(reader, COMMAND_LENGTH));
     int payloadLength = readUintLE(reader);

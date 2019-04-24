@@ -28,7 +28,7 @@ abstract class Message extends BitcoinSerializable {
 
   factory Message.forCommand(String command) {
     if (!_MESSAGE_GENERATORS.containsKey(command)) {
-      throw new ArgumentError("$command is not a valid message command");
+      throw new ArgumentError("$command");
     }
     return _MESSAGE_GENERATORS[command]();
   }

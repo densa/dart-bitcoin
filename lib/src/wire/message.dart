@@ -85,7 +85,7 @@ abstract class Message extends BitcoinSerializable {
   }
 
   /// Encode a message to serialized format.
-  static Uint8List encode(Message msg, String magicValue, int pver) {
+  static Uint8List encode(Message msg, String magicValue, int pver, {bool withChecksum = true}) {
     var buffer = new bytes.Buffer();
 
     // write magic value and command
@@ -98,7 +98,9 @@ abstract class Message extends BitcoinSerializable {
 
     // write payload size and checksum
     writeUintLE(buffer, payloadBuffer.length);
-    buffer.add(payloadBuffer.checksum().sublist(0, 4));
+    if (withChecksum) {
+      buffer.add(payloadBuffer.checksum().sublist(0, 4));
+    }
 
     // write the actual payload
     writeBytes(buffer, payloadBuffer.asBytes());

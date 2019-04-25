@@ -3,6 +3,10 @@ version: 0.0.0
 author: Steven Roose <stevenroose@gmail.com>
 description: A Bitcoin library for Dart. Pub-test release.
 homepage: http://www.dartcoin.org/
+
+environment:
+  sdk: '>=1.0.0 <3.0.0'
+
 dependencies:
   asn1lib: ">=0.3.1"
   base58check: ^1.0.0
@@ -16,6 +20,6 @@ dependencies:
   collection: any
   cryptoutils: ">=0.1.8"
   pointycastle: any
+
 dev_dependencies:
-environment:
-  sdk: '>=1.0.0 <3.0.0'
+  test: any

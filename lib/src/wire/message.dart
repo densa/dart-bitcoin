@@ -85,27 +85,21 @@ abstract class Message extends BitcoinSerializable {
   }
 
   /// Encode a message to serialized format.
-  static Uint8List encode(Message msg, String magicValue, int pver, {bool withChecksum = true}) {
-    var buffer = new bytes.Buffer();
-
-    // write magic value and command
-    buffer.add(HEX.decode(magicValue));
-    buffer.add(_encodeCommand(msg.command));
-
+  static Uint8List encode(Message msg, int magicValue, int pver, {bool withChecksum = true}) {
     // serialize the payload
     ChecksumBuffer payloadBuffer = new ChecksumBuffer(new crypto.DoubleSHA256Digest());
     msg.bitcoinSerialize(payloadBuffer, pver);
 
-    // write payload size and checksum
-    writeUintLE(buffer, payloadBuffer.length);
+    final cmd = _encodeCommand(msg.command);
+    final buffer = ByteBuffer(4 + cmd.length + 4 + 4 + payloadBuffer.length);
+    buffer.addUint32(magicValue, Endian.big);
+    buffer.addBytes(cmd);
+    buffer.addUint32(payloadBuffer.length);
     if (withChecksum) {
-      buffer.add(payloadBuffer.checksum().sublist(0, 4));
+      buffer.addBytes(payloadBuffer.checksum().sublist(0, 4));
     }
-
-    // write the actual payload
-    writeBytes(buffer, payloadBuffer.asBytes());
-
-    return buffer.asBytes();
+    buffer.addBytes(payloadBuffer.asBytes());
+    return buffer.toBytes();
   }
 
   static String _readCommand(Uint8List bytes) {
@@ -118,5 +112,40 @@ abstract class Message extends BitcoinSerializable {
     List<int> commandBytes = new List.from(ascii.encode(command));
     while (commandBytes.length < COMMAND_LENGTH) commandBytes.add(0);
     return commandBytes;
+  }
+}
+
+class ByteBuffer {
+  Uint8List _bytes;
+  ByteData _data;
+  int _offsetInBytes = 0;
+
+  ByteBuffer(int initialCapacity){
+    _bytes = Uint8List(initialCapacity);
+    _data = _bytes.buffer.asByteData();
+  }
+
+  void ensureCapacity(int capacity) {
+    final int newLength = _offsetInBytes + capacity;
+    if(newLength >= _bytes.length) {
+      _bytes = Uint8List(newLength)..setAll(0, _bytes);
+      _data = _bytes.buffer.asByteData();
+    }
+  }
+
+  void addBytes(List<int> bytes) {
+    ensureCapacity(bytes.length);
+    _bytes.setAll(_offsetInBytes, bytes);
+    _offsetInBytes += bytes.length;
+  }
+
+  void addUint32(int value, [Endian endian = Endian.little]) {
+    ensureCapacity(4);
+    _data.setUint32(_offsetInBytes, value, endian);
+    _offsetInBytes += 4;
+  }
+
+  List<int> toBytes() {
+    return _bytes.sublist(0, _offsetInBytes);
   }
 }

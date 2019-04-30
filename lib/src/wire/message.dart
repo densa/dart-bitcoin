@@ -9,6 +9,7 @@ abstract class Message extends BitcoinSerializable {
   static const String CMD_VERSION = "version";
   static const String CMD_PING = "ping";
   static const String CMD_PONG = "pong";
+  static const String CMD_REJECT = "reject";
 
   static final Map<String, _MessageGenerator> _MESSAGE_GENERATORS = {
     CMD_ADDR: () => new AddressMessage.empty(),
@@ -17,6 +18,7 @@ abstract class Message extends BitcoinSerializable {
     CMD_VERSION: () => new VersionMessage.empty(),
     CMD_PING: () => PingMessage.empty(),
     CMD_PONG: () => PongMessage.empty(),
+    CMD_REJECT: () => RejectMessage.empty(),
   };
 
   static const int HEADER_LENGTH = 24; // = 4 + COMMAND_LENGTH + 4 + 4;
@@ -42,8 +44,7 @@ abstract class Message extends BitcoinSerializable {
 
   /// Decode a serialized message.
   static Message decode(Uint8List msgBytes, int pver) {
-    if (msgBytes.length < HEADER_LENGTH)
-      throw new SerializationException("Too few bytes to be a Message");
+    if (msgBytes.length < HEADER_LENGTH) throw new SerializationException("Too few bytes to be a Message");
 
     // create a Reader for deserializing
     var reader = new bytes.Reader(msgBytes);
@@ -120,14 +121,14 @@ class ByteBuffer {
   ByteData _data;
   int _offsetInBytes = 0;
 
-  ByteBuffer(int initialCapacity){
+  ByteBuffer(int initialCapacity) {
     _bytes = Uint8List(initialCapacity);
     _data = _bytes.buffer.asByteData();
   }
 
   void ensureCapacity(int capacity) {
     final int newLength = _offsetInBytes + capacity;
-    if(newLength >= _bytes.length) {
+    if (newLength >= _bytes.length) {
       _bytes = Uint8List(newLength)..setAll(0, _bytes);
       _data = _bytes.buffer.asByteData();
     }

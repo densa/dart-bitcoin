@@ -27,3 +27,4 @@ part "src/wire/messages/ping_message.dart";
 part "src/wire/messages/pong_message.dart";
 part "src/wire/messages/address_message.dart";
 part "src/wire/messages/getaddress_message.dart";
+part "src/wire/messages/reject_message.dart";

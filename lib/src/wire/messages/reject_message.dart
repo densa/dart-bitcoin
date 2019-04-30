@@ -5,9 +5,7 @@ class RejectMessage extends Message {
   String get command => Message.CMD_REJECT;
 
   String message;
-  int code;
   String reason;
-  int data;
 
   /// Create an empty instance.
   RejectMessage.empty();
@@ -15,9 +13,8 @@ class RejectMessage extends Message {
   @override
   void bitcoinDeserialize(bytes.Reader reader, int pver) {
     message = readVarStr(reader);
-    code = readVarInt(reader);
+    reader.readByte();
     reason = readVarStr(reader);
-    data = readVarInt(reader);
   }
 
   @override

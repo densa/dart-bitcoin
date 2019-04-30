@@ -86,14 +86,14 @@ abstract class Message extends BitcoinSerializable {
   }
 
   /// Encode a message to serialized format.
-  static Uint8List encode(Message msg, int magicValue, int pver, {bool withChecksum = true}) {
+  static Uint8List encode(Message msg, int magicValue, int pver, {bool withChecksum = true, Endian magicEndian: Endian.big}) {
     // serialize the payload
     ChecksumBuffer payloadBuffer = new ChecksumBuffer(new crypto.DoubleSHA256Digest());
     msg.bitcoinSerialize(payloadBuffer, pver);
 
     final cmd = _encodeCommand(msg.command);
     final buffer = ByteBuffer(4 + cmd.length + 4 + 4 + payloadBuffer.length);
-    buffer.addUint32(magicValue, Endian.big);
+    buffer.addUint32(magicValue, magicEndian);
     buffer.addBytes(cmd);
     buffer.addUint32(payloadBuffer.length);
     if (withChecksum) {

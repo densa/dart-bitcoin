@@ -75,20 +75,14 @@ class PeerAddress extends BitcoinSerializable {
   }
 
   void bitcoinDeserialize(bytes.Reader reader, int pver) {
-    if (pver >= 31402) time = readUintLE(reader);
+    time = readUintLE(reader);
     services = utils.bytesToUBigIntLE(readBytes(reader, 8));
     address = readBytes(reader, 16);
     port = (0xff & readUintLE(reader, 1)) << 8 | (0xff & readUintLE(reader, 1));
   }
 
   void bitcoinSerialize(bytes.Buffer buffer, int pver) {
-    if (pver >= 31402) {
-      // This appears to be dynamic because the client only ever sends out it's
-      // own address so assumes itself to be up.  For a fuller implementation
-      // this needs to be dynamic only if the address refers to this client.
-      int secs = new DateTime.now().millisecondsSinceEpoch ~/ 1000;
-      writeUintLE(buffer, secs);
-    }
+    writeUintLE(buffer, time);
     writeBytes(buffer, utils.uBigIntToBytesLE(services, 8));
     writeBytes(buffer, address);
     writeBytes(buffer, [0xFF & port >> 8]);

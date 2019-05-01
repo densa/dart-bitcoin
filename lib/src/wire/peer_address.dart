@@ -71,14 +71,16 @@ class PeerAddress extends BitcoinSerializable {
   }
 
   void bitcoinDeserialize(bytes.Reader reader, int pver) {
-    time = readUintLE(reader);
+    if (pver >= 31402) time = readUintLE(reader);
     services = utils.bytesToUBigIntLE(readBytes(reader, 8));
     address = readBytes(reader, 16);
     port = (0xff & readUintLE(reader, 1)) << 8 | (0xff & readUintLE(reader, 1));
   }
 
   void bitcoinSerialize(bytes.Buffer buffer, int pver) {
-    writeUintLE(buffer, time);
+    if (pver >= 31402) {
+      writeUintLE(buffer, time);
+    }
     writeBytes(buffer, utils.uBigIntToBytesLE(services, 8));
     writeBytes(buffer, address);
     writeBytes(buffer, [0xFF & port >> 8]);

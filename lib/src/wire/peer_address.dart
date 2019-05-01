@@ -50,8 +50,7 @@ class PeerAddress extends BitcoinSerializable {
       address[10] = 0xff;
       address[11] = 0xff;
     }
-    if (address.length != 16)
-      throw new ArgumentError("Invalid address length. Must be either 4 or 16 bytes long.");
+    if (address.length != 16) throw new ArgumentError("Invalid address length. Must be either 4 or 16 bytes long.");
     return address;
   }
 
@@ -63,10 +62,7 @@ class PeerAddress extends BitcoinSerializable {
   @override
   bool operator ==(dynamic other) {
     if (other.runtimeType != PeerAddress) return false;
-    return address == other.address &&
-        port == other.port &&
-        services == other.services &&
-        time == other.time;
+    return address == other.address && port == other.port && services == other.services && time == other.time;
   }
 
   @override
